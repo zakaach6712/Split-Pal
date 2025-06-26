@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SplitPal - Bill Splitter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <div class="logo">
+      <h1>💸<em>SplitPal</em></h1>
+    </div>
+
+    <div id="homePage"><em>♻️Welcome to SplitPal♻️</em></div>
+
+    <div class="step-tracker">
+      <span class="step active">1. Enter Bill</span>
+      <span class="divider">→</span>
+      <span class="step">2. Record Names</span>
+      <span class="divider">→</span>
+      <span class="step">3. Share It</span>
+    </div>
+
+    <div class="input-group">
+      <label class="BillS">Total Bill</label>
+      <input type="number" id="totalBill" placeholder="e.g. 2500" />
+    </div>
+
+    <!-- 🔹 New Single Entry Fields -->
+    <div class="input-group">
+      <input type="text" id="singleName" placeholder="Name" />
+      <input type="number" id="singleAmount" placeholder="Amount Owed" />
+      <button onclick="recordPerson()">✅ Record</button>
+    </div>
+
+    <div class="btn-row">
+      <button onclick="showSummary()">📋 Show Summary</button>
+    </div>
+
+    <div id="result" class="results-box"></div>
+
+    <!-- ✅ WhatsApp Share Button -->
+    <button id="share-whatsapp" style="display: none;">📤 Share via WhatsApp</button>
+
+    <div id="summaryPage" style="display: none;"><em>💳 Now Pay Your Portion! 😉</em></div>
+
+    <button onclick="goToPage('summaryPage')">Next</button>
+
+    <div class="footer">
+      <footer>
+        <p class="copyright">© 2025 Zakaach. All rights reserved.</p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
