@@ -74,3 +74,19 @@ function setStep(index) {
     step.classList.toggle('active', i === index);
   });
 }
+async function fetchExchangeRate(base = 'USD', target = 'KES') {
+  try {
+    const response = await fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${target}`);
+    const data = await response.json();
+    const rate = data.rates[target];
+
+    // Optionally display the rate
+    document.getElementById("exchangeRate").textContent = `1 ${base} = ${rate} ${target}`;
+
+    // You could also use 'rate' to update the owed amounts dynamically
+  } catch (err) {
+    console.error("Failed to fetch rate:", err);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", fetchExchangeRate);

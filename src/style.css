@@ -174,3 +174,14 @@ button:hover {
 footer p {
   font-size: 14px;
 }
+
+#exchangeRate {
+  font-size: 1rem;
+  color: #333;
+  margin-top: 0.5rem;
+  background-color: #f0f8ff;
+  padding: 0.4rem 0.8rem;
+  border-left: 4px solid #00b894;
+  border-radius: 4px;
+  width: fit-content;
+}

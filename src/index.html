@@ -5,6 +5,7 @@
   <title>SplitPal - Bill Splitter</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="/assets/download (4).jpeg" type="image/jpeg" />
 </head>
 <body>
   <div class="app-container">
@@ -25,6 +26,8 @@
     <div class="input-group">
       <label class="BillS">Total Bill</label>
       <input type="number" id="totalBill" placeholder="e.g. 2500" />
+      <p id="exchangeRate">Loading exchange rate...</p>
+
     </div>
 
     <!-- 🔹 New Single Entry Fields -->
@@ -41,11 +44,12 @@
     <div id="result" class="results-box"></div>
 
     <!-- ✅ WhatsApp Share Button -->
-    <button id="share-whatsapp" style="display: none;">📤 Share via WhatsApp</button>
-
+      
+    <button id="share-whatsapp" style="display: none;">Share via WhatsApp</button>
+         
     <div id="summaryPage" style="display: none;"><em>💳 Now Pay Your Portion! 😉</em></div>
 
-    <button onclick="goToPage('summaryPage')">Next</button>
+   
 
     <div class="footer">
       <footer>
