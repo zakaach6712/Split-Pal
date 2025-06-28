@@ -30,3 +30,8 @@ No downloads, no accounts, no stress—just a clean interface and quick results.
 4. Click **"Calculate"** to see the breakdown.
 
 ## 📁 File Structure
+
+
+## 📽️ Demo Video
+
+[Watch the SplitPal Presentation](https://drive.google.com/file/d/1U3tWuz3cJV1LtFPCg0yP4EigjAU67wvV/view?usp=drive_link)
