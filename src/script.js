@@ -1,4 +1,6 @@
 const people = [];
+let exchangeRate = 150; // Default fallback: 1 USD = 150 KES
+let rateDate = "Unknown date";
 
 function recordPerson() {
   const nameInput = document.getElementById("singleName");
@@ -37,23 +39,22 @@ function showSummary() {
     return;
   }
 
-  setStep(2); // 📍 Moved to final step
+  setStep(2);
   resultDiv.innerHTML = "<h3>Who Owes What:</h3>";
   people.forEach(person => {
-    resultDiv.innerHTML += `<p>${person.name} owes $${person.amount.toFixed(2)}</p>`;
+    const amountKES = (person.amount * exchangeRate).toFixed(2);
+    resultDiv.innerHTML += `<p>${person.name} owes $${person.amount.toFixed(2)} (~Ksh ${amountKES})</p>`;
   });
 
-  // 📤 WhatsApp Integration
   const summary = people
-    .map(p => `${p.name} owes $${p.amount.toFixed(2)}`)
+    .map(p => `${p.name} owes $${p.amount.toFixed(2)} (~Ksh ${(p.amount * exchangeRate).toFixed(2)})`)
     .join('\n');
 
   const encodedMessage = encodeURIComponent(
-    `Hey everyone!\nHere's our SplitPal summary:\n\n${summary}`
+    `Hey everyone!\nHere's our SplitPal summary:\n\n${summary}\n\nExchange Rate: 1 USD = ${exchangeRate} KES\nDate: ${rateDate}`
   );
 
   const whatsappLink = `https://wa.me/?text=${encodedMessage}`;
-
   const shareBtn = document.getElementById('share-whatsapp');
   shareBtn.style.display = 'inline-block';
   shareBtn.onclick = () => {
@@ -67,7 +68,7 @@ function goToPage(pageId) {
   setStep(2);
 }
 
-// 🔄 Step Tracker Logic
+
 function setStep(index) {
   const steps = document.querySelectorAll('.step');
   steps.forEach((step, i) => {
@@ -75,18 +76,35 @@ function setStep(index) {
   });
 }
 async function fetchExchangeRate(base = 'USD', target = 'KES') {
+  const apiKey = '2b1f90cce62f5d36005002fa';
+  const endpoint = `https://v6.exchangerate-api.com/v6/${apiKey}/pair/${base}/${target}`;
+
   try {
-    const response = await fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${target}`);
+    const response = await fetch(endpoint);
     const data = await response.json();
-    const rate = data.rates[target];
 
-    // Optionally display the rate
-    document.getElementById("exchangeRate").textContent = `1 ${base} = ${rate} ${target}`;
+    console.log("ExchangeRate-API response:", data);
 
-    // You could also use 'rate' to update the owed amounts dynamically
+    if (data.result !== "success" || typeof data.conversion_rate === 'undefined') {
+      console.warn(`⚠️ ExchangeRate-API failed or missing conversion rate. Falling back to ${exchangeRate} KES.`);
+      document.getElementById("exchangeRate").textContent =
+        `1 ${base} ≈ ${exchangeRate} ${target} (fallback rate used)`;
+      return;
+    }
+
+    exchangeRate = data.conversion_rate;
+    rateDate = data.time_last_update_utc || "Unknown date";
+
+    document.getElementById("exchangeRate").textContent =
+      `1 ${base} = ${exchangeRate} ${target} (as of ${new Date(rateDate).toLocaleDateString()})`;
   } catch (err) {
-    console.error("Failed to fetch rate:", err);
+    console.error("Using fallback rate due to error:", err);
+    document.getElementById("exchangeRate").textContent =
+      `1 ${base} ≈ ${exchangeRate} ${target} (fallback rate used)`;
   }
 }
 
-document.addEventListener("DOMContentLoaded", fetchExchangeRate);
+
+
+document.addEventListener("DOMContentLoaded", () => fetchExchangeRate("USD", "KES"));
+
